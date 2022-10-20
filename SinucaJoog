@@ -1,0 +1,166 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <cstdlib>
+#include <conio.h>
+#define cor_programa "color 6"
+
+
+int jogar(int forca, int lado, int par){
+	int flag=0, r=0;
+	
+	if(par==1){
+		r = rand()%4 + 5;
+	}else{
+		if(forca == 1){
+			if(lado==1){
+				 r = rand()%16;
+				 srand (time(NULL));
+			}else if(lado==2){
+				 r = rand()%16;
+				 srand(1);
+			}else if(lado==3){
+				 r = rand()%16 - 3;
+			}
+		}
+		
+		if(forca == 2){
+			if(lado==1){
+				 r = rand()%14 + 2;
+				 srand (time(NULL));
+			}else if(lado==2){
+				 r = 0;
+			}else if(lado==3){
+				 r = rand()%16;
+				 srand(2);
+			}
+		}
+		
+		if(forca == 3){
+			if(lado==1){
+				 r = rand()%10 + 5;
+				 srand (time(NULL));
+			}else if(lado==2){
+				 r = rand()%16;
+				 srand(3);
+			}else if(lado==3){
+				 r = 0;
+			}
+		}
+	}	
+	return r; 	
+}
+int verificar(int r){
+	int jogada = 0;
+	if(r == 0){	
+		jogada = 0;		
+	}else if(r >=1 && r<=7){
+		jogada = 1;
+	}else if(r>=9 && r <=15){
+		jogada = 2;
+	}else if(r==8){
+		jogada = 3;
+	}
+	return jogada;
+}
+
+main(){
+	system(cor_programa);
+	int vet[15];
+	int forca, lado;
+	int i=0, r, jogada;
+	int jogador = 1; 
+	int j1=0, j2=0, par=0;
+	int leia;
+	
+	printf("1- Jogar \n 2- Sair \n");
+	scanf("%i", &leia);	
+	
+	if (leia==1){
+			for(;;){
+				printf("\n\nJOGADOR DA VEZ: %i", jogador);
+				printf("\nQual a forca da jogada? (1) Fraca  (2) Media  (3) Forte: ");
+				scanf("%i", &forca);
+				
+				printf("\nQual o lado da jogada? (1) Direito  (2) Meio  (3) Esquerdo: ");
+				scanf("%i", &lado);
+							r = jogar(forca, lado, par);
+							jogada = verificar(r);		
+			int flag2=0;
+			for(int j=0; j<15; j++){
+				if(vet[j] == r){
+					flag2=1;
+				}	
+			}
+			if(flag2==0){
+				vet[i] = r;
+				i++;
+			}
+			system("cls");
+			
+			if(j1==7 && j2==7){
+				par=1;
+			}
+			
+				if(jogador==1){
+					if(j1==7){
+						if(jogada==3){
+							printf("\n\nVENCEDOR: JOGADOR 1");
+							break;
+						}else{
+							printf("\nPasse a vez");
+							jogador=2;
+						}
+					}else{
+						if(jogada == 0){
+							jogador=2;
+							printf("\nVoce nao acertou nenhuma bola e passou a vez!");
+						}else if(jogada == 1){
+							printf("\nVoce derrubou a bola %i! Continue jogando", r);
+							j1++;
+						}else if(jogada==2){
+							jogador=2;
+							printf("\nVoce derrubou uma bola adversaria (%i)! Passe a vez", r);
+							j2++;
+						}else if(jogada==3){
+							printf("\nVoce derrubou a bola 8. Perdeu o jogo.");
+							printf("\n\nVENCEDOR: JOGADOR 2");
+							break;
+						}
+					}
+					}else if(jogador==2){
+						
+					if(j2==7){
+						if(jogada==3){
+							printf("\n\nVENCEDOR: JOGADOR 2");
+							break;
+						}else{
+							printf("\nPasse a vez");
+							jogador=1;
+						}
+					}else{
+						if(jogada == 0){
+							jogador=1;
+							printf("\nVoce nao acertou nenhuma bola e passou a vez!");
+						}else if(jogada == 2){
+							printf("\nVoce derrubou a bola %i! Continue jogando", r);
+							j2++;
+						}else if(jogada==1){
+							jogador=1;
+							printf("\nVoce derrubou uma bola adversaria (%i)! Passe a vez", r);
+							j1++;
+						}else if(jogada==3){
+							printf("\nVoce derrubou a bola 8. Perdeu o jogo.");
+							printf("\n\nVENCEDOR: JOGADOR 1");
+							break;
+						}
+					}
+				}
+		printf("\n\nPLACAR: jogador1 %i x %i jogador2", j1, j2);
+	}
+	}else if (leia==2){
+	
+	}else{
+		printf("numero nao reconhecido");
+	}		
+}
